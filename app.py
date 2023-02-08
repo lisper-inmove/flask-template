@@ -4,7 +4,7 @@ from flask import Flask
 from view.initblueprint import InitBlueprint
 from submodules.utils.sys_env import SysEnv
 
-app = Flask(SysEnv.get(SysEnv.APPNAME), "demo")
+app = Flask(SysEnv.get(SysEnv.APPNAME, "demo"))
 
 InitBlueprint(app)
 
