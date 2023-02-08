@@ -27,3 +27,7 @@
 #+begin_src shell
   ./test_run.sh
 #+end_src
+* 运行demo
+#+begin_src shell
+  git co demo && ./test_run.sh
+#+end_src

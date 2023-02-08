@@ -1,13 +1,14 @@
 
 # Table of Contents
 
-1.  [作用](#orga7e092f)
-2.  [结构说明](#org0592cf6)
-3.  [使用说明](#orgbe4f642)
+1.  [作用](#orgb413bde)
+2.  [结构说明](#org0206b38)
+3.  [使用说明](#org18d9ced)
+4.  [运行demo](#org281093f)
 
 
 
-<a id="orga7e092f"></a>
+<a id="orgb413bde"></a>
 
 # 作用
 
@@ -16,7 +17,7 @@
 </p>
 
 
-<a id="org0592cf6"></a>
+<a id="org0206b38"></a>
 
 # 结构说明
 
@@ -30,7 +31,7 @@
 </p>
 
 
-<a id="orgbe4f642"></a>
+<a id="org18d9ced"></a>
 
 # 使用说明
 
@@ -45,3 +46,10 @@
 </p>
 
     ./test_run.sh
+
+
+<a id="org281093f"></a>
+
+# 运行demo
+
+    git co demo && ./test_run.sh
