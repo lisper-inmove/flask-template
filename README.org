@@ -1,6 +1,29 @@
 #+STARTUP: indent
 
-* 使用
+* 作用
 #+begin_verse
 主要用于派生其它基于Flask的项目
 #+end_verse
+* 结构说明
+#+begin_verse
+1. view: 视图层
+2. ctrl: 控制层
+3. manager: 业务逻辑层
+4. dao: 数据库操作层
+5. submodules: 子模块层
+6. proto: Protobuf 文件存放位置
+#+end_verse
+* 使用说明
+#+begin_verse
+1. 更新子模块
+#+end_verse
+#+begin_src shell
+  git submodule update --init --recursive
+#+end_src
+
+#+begin_verse
+2. 启动服务
+#+end_verse
+#+begin_src shell
+  ./test_run.sh
+#+end_src
