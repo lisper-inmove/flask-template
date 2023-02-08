@@ -1,0 +1,12 @@
+#!/bin/bash
+
+export APPNAME=demo1
+export LOGGER_ENABLE_CONSOLE=true
+export LOGGER_ENABLE_SYSLOG=true
+export LOGGER_SYSLOG_HOST=logger.server
+export LOGGER_SYSLOG_PORT=514
+export LOGGER_SYSLOG_FACILITY=local7
+export MONGODB_SERVER_ADDRESS=127.0.0.1
+export MONGODB_PORT=27018
+export RUNTIME_ENVIRONMENT=test
+python app.py
