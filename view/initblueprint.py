@@ -21,7 +21,7 @@ class RequestMiddleWare:
 
     def __call__(self, environ, start_response):
         environ["HTTP_MESSAGE_UUID"] = Misc.uuid()
-        environ["HTTP_REQUEST_TIMESTAMP"] = IDate.now_millseconds()
+        environ["HTTP_REQUEST_TIME_MSEC"] = IDate.now_millseconds()
         return self.wsgi_app(environ, start_response)
 
 
@@ -96,10 +96,10 @@ class InitBlueprint:
             """记录请求参数和返回的errcode和errmsg."""
             user_ip = request.headers.get("X-Real-Ip", None)
             user_id = request.headers.get("userId")
-            start_time = float(request.headers.get("Request-Timestamp"))
-            finish_time = IDate.now_millseconds()
+            start_time_msec = float(request.headers.get("Request-Time-Msec"))
+            end_time_msec = IDate.now_millseconds()
             url = request.url
             url_rule = request.url_rule
-            msg = f"接口使用详情|||{user_ip}|||{user_id}|||{url}|||{url_rule}|||{finish_time - start_time}"
+            msg = f"接口使用详情|||{user_ip}|||{user_id}|||{url}|||{url_rule}|||{end_time_msec - start_time_msec}"
             logger.info(msg)
             return response
