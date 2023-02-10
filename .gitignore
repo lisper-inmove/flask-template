@@ -3,3 +3,4 @@
 # compiled output
 *.pyc
 proto/*.py
+*_pb2.py
