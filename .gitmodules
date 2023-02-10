@@ -1,5 +1,5 @@
 [submodule "proto/common"]
-	path = proto/common
+	path = proto/Common/common
 	url = http://gitlab.inmove.top/root/CommonProto.git
 [submodule "submodules/utils"]
 	path = submodules/utils

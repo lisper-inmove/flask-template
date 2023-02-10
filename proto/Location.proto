@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package CommonProto.Location;
+
+message Location {
+  // 省
+  string prov = 1;
+  // 市
+  string city = 2;
+  // 区
+  string region = 3;
+  // 详细地址
+  string address = 4;
+  // 经度
+  float lnt = 5;
+  // 纬度
+  float lat = 6;
+}
