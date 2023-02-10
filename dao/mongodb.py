@@ -79,6 +79,8 @@ class MongoDBHelper(MongoDBSingleHelper):
             page = 1
         if size is None:
             size = 100
+        page = int(page)
+        size = int(size)
         skip = (page - 1) * size
         result = self._coll.find(matcher).sort(sortby).skip(skip).limit(size)
         return result
