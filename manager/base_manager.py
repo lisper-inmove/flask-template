@@ -44,13 +44,13 @@ class BaseManager(BaseCls):
     def update_obj(self, obj):
         if self._da is None:
             return None
-        obj.update_time = IDate.now_timestamp()
+        obj.update_time_sec = IDate.now_timestamp()
         return self._da.update_obj(obj)
 
     def delete_obj(self, obj):
         if self._da is None:
             return None
-        obj.update_time = IDate.now_timestamp()
+        obj.update_time_sec = IDate.now_timestamp()
         return self._da.delete_obj(obj)
 
     def list_objs(self, matcher, sortby=None, page=None, size=None):
@@ -62,6 +62,6 @@ class BaseManager(BaseCls):
     def create_obj(self, cls):
         obj = cls()
         obj.id = Misc.uuid()
-        obj.create_time = IDate.now_timestamp()
-        obj.update_time = IDate.now_timestamp()
+        obj.create_time_sec = IDate.now_timestamp()
+        obj.update_time_sec = IDate.now_timestamp()
         return obj

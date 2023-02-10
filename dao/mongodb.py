@@ -74,7 +74,7 @@ class MongoDBHelper(MongoDBSingleHelper):
             return []
         # 默认为按照更新时间倒序
         if sortby is None:
-            sortby = [("update_time", -1)]
+            sortby = [("update_time_sec", -1)]
         if page is None:
             page = 1
         if size is None:
