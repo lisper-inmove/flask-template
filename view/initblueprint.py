@@ -1,9 +1,5 @@
 # -*- coding: utf-8 -*-e
 
-import os
-import importlib.util
-
-from flask import Blueprint
 from flask import request
 
 from submodules.utils.logger import Logger
@@ -11,6 +7,7 @@ from submodules.utils.misc import Misc
 from submodules.utils.idate import IDate
 from view.unify_response import UnifyResponse
 from view.errors import Error
+from view.view_port import _view_port
 
 logger = Logger()
 
@@ -35,44 +32,11 @@ class InitBlueprint:
         self.__app = app
         self.__set_middleware()
         self.__views = list()
-        self.__init_project()
-        self.__auto_load_views()
+        # self.__init_project()
+        # self.__auto_load_views()
         self.__set_filter()
-
-    def __set_middleware(self):
+        self.app.register_blueprint(_view_port)
         self.app.wsgi_app = RequestMiddleWare(self.app.wsgi_app)
-
-    def __init_project(self):
-        self.root_dir = os.path.abspath(os.path.curdir)
-
-    def __auto_load_views(self):
-        self.__load_view_from_directory(self.root_dir, "view")
-
-    def __load_view_from_directory(self, root, directory):
-        path = os.path.join(root, directory)
-        for curroot, dirs, files in os.walk(path):
-            for directory in dirs:
-                self.__load_view_from_directory(root, directory)
-            for file in files:
-                filepath = os.path.join(curroot, file)
-                self.__load_view_from_file(filepath)
-
-    def __load_view_from_file(self, filename):
-        if not filename.endswith("py"):
-            return
-        spec = importlib.util.spec_from_file_location("test", filename)
-        module = importlib.util.module_from_spec(spec)
-        spec.loader.exec_module(module)
-        for attribute in module.__dict__.keys():
-            if attribute.startswith("__"):
-                continue
-            view = module.__dict__.get(attribute)
-            if view is Blueprint:
-                continue
-            if not isinstance(view, Blueprint):
-                continue
-            logger.info(f"load view: {view} {filename}")
-            self.app.register_blueprint(view)
 
     def __set_filter(self):
 

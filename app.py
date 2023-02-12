@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 
+import os
+
 from flask import Flask
-from view.initblueprint import InitBlueprint
 from submodules.utils.sys_env import SysEnv
+from view.initblueprint import InitBlueprint
 
 app = Flask(SysEnv.get(SysEnv.APPNAME, "demo"))
 
