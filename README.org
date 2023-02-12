@@ -6,12 +6,14 @@
 #+end_verse
 * 结构说明
 #+begin_verse
-1. view: 视图层
-2. ctrl: 控制层
-3. manager: 业务逻辑层
-4. dao: 数据库操作层
-5. submodules: 子模块层
-6. proto: Protobuf 文件存放位置
+1. dao: 数据库交互层
+2. manager: 业务逻辑层,直接访问dao
+3. ctrl: 控制层,与manager对接，业务逻辑控制
+4. view: 视图层,与ctrl对接
+5. proto: protobuf保存目录
+   1. proto/xx 保存xx数据类型
+   2. proto/vo/xx 保存xx数据类型的视图。也就是返回到前端的结构
+6. submodules: git子模块保存目录
 #+end_verse
 * 使用说明
 #+begin_verse
@@ -31,3 +33,13 @@
 #+begin_src shell
   git co demo && ./test_run.sh
 #+end_src
+#+STARTUP: indent
+* 如何添加一个新的实体
+#+begin_verse
+1. 创建 /proto/XXX/new-x.proto: *cm* snippet
+2. 创建 /proto/vo/XXX/new-x.proto: *cpvo* snippet
+3. 创建 /dao/XXX/new-x.py: *cda* yasnippet
+4. 创建 /manager/XXX/new-x.py: *cmn* yasnippet
+5. 创建 /ctrl/XXX/new-x.py: *cct* yasnippet
+6. 创建 /view/XXX/new-x.py: *cvi* yasnippet
+#+end_verse
