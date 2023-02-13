@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-e
 
+import traceback
 from flask import request
 
 from submodules.utils.logger import Logger
@@ -42,7 +43,7 @@ class InitBlueprint:
 
         @self.app.errorhandler(Exception)
         def error_handler(e):
-            logger.error(e)
+            logger.info(traceback.print_tb(e.__traceback__))
             if isinstance(e, Error) or issubclass(e.__class__, Error):
                 return UnifyResponse.R(rs=(e.code, e.msg))
             return UnifyResponse.R(rs=UnifyResponse.SYSTEM_ERROR)

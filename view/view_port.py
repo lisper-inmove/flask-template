@@ -6,12 +6,15 @@ import importlib.util
 from flask import Blueprint
 from submodules.utils.protobuf_helper import ProtobufHelper as PH
 from submodules.utils.sys_env import SysEnv
+from submodules.utils.logger import Logger
 from view.unify_response import UnifyResponse
 
 name = "view-port"
 _view_port = Blueprint(name, name, url_prefix="/<string:source>")
 
 ctrls = dict()
+
+logger = Logger()
 
 
 def load_ctrl(path=None):
@@ -31,9 +34,7 @@ def load_ctrl_from_file(filepath):
     if not filepath.endswith("py"):
         return
     filename = os.path.basename(filepath)
-    if filename == 'base_ctrl.py':
-        return
-    if not filename.endswith("_c.py"):
+    if filename == "base_ctrl.py":
         return
     spec = importlib.util.spec_from_file_location('ctrl', filepath)
     module = importlib.util.module_from_spec(spec)
@@ -41,10 +42,13 @@ def load_ctrl_from_file(filepath):
     for attr in module.__dict__.keys():
         if attr.startswith("__"):
             continue
-        _view = module.__dict__.get(attr)
-        if hasattr(_view, "___name___"):
-            ctrls.update({_view.___name___: _view})
-            return
+        _ctrl = module.__dict__.get(attr)
+        if not hasattr(_ctrl, "___name___"):
+            continue
+        if _ctrl.___name___ in ctrls:
+            continue
+        logger.info(f"导入ctrl: {_ctrl} {id(ctrls)}")
+        ctrls.update({_ctrl.___name___: _ctrl})
 
 
 @_view_port.route("/<string:operate>", methods=["POST"])
