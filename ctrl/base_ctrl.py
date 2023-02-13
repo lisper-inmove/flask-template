@@ -56,3 +56,7 @@ class BaseCtrl(BaseCls):
         if self.operate not in self._OPF:
             raise PopupError(f"操作未实现: {self.operate}")
         return self._OPF[self.operate]()
+
+    def __getattr__(self, key):
+        """controller中可以直接通过self.key的方式获取参数."""
+        return self.get_param(key)
