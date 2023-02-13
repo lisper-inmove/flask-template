@@ -1,6 +1,6 @@
 [submodule "submodules/utils"]
 	path = submodules/utils
 	url = http://gitlab.inmove.top/publicarea/pythonutils.git
-[submodule "proto/Common"]
-	path = proto/Common
-	url = http://gitlab.inmove.top/root/CommonProto.git
+[submodule "proto/common"]
+	path = proto/common
+	url = http://gitlab.inmove.top/root/common-proto.git
