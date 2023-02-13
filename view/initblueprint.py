@@ -32,10 +32,11 @@ class InitBlueprint:
         self.__app = app
         self.__set_middleware()
         self.__views = list()
-        # self.__init_project()
-        # self.__auto_load_views()
         self.__set_filter()
         self.app.register_blueprint(_view_port)
+        self.app.wsgi_app = RequestMiddleWare(self.app.wsgi_app)
+
+    def __set_middleware(self):
         self.app.wsgi_app = RequestMiddleWare(self.app.wsgi_app)
 
     def __set_filter(self):

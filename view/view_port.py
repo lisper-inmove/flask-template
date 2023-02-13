@@ -31,6 +31,8 @@ def load_ctrl_from_file(filepath):
     if not filepath.endswith("py"):
         return
     filename = os.path.basename(filepath)
+    if filename == 'base_ctrl.py':
+        return
     if not filename.endswith("_c.py"):
         return
     spec = importlib.util.spec_from_file_location('ctrl', filepath)
