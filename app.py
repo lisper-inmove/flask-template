@@ -4,6 +4,7 @@ import os
 
 from flask import Flask
 from submodules.utils.sys_env import SysEnv
+SysEnv.set(SysEnv.APPROOT, os.getcwd())
 from view.initblueprint import InitBlueprint
 
 app = Flask(SysEnv.get(SysEnv.APPNAME, "demo"))
