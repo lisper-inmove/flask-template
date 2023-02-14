@@ -71,7 +71,8 @@ class BaseManager(BaseCls):
         if status is None:
             return
         try:
-            s = self.ObjStatus[status]
-            obj.status = s
+            if not isinstance(status, self.ObjStatus):
+                status = self.ObjStatus[status]
+            obj.status = status
         except KeyError:
             raise PopupError('状态错误')
