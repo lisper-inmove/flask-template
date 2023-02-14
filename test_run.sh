@@ -18,4 +18,18 @@ export MONGODB_SERVER_ADDRESS=127.0.0.1
 export MONGODB_PORT=27018
 # 服务启动环境
 export RUNTIME_ENVIRONMENT=test
-python app.py
+
+port=6003
+while true
+do
+    declare -i flag
+    flag=`lsof -i:$port | wc -l`
+    if [ $((flag)) -eq 0 ];then
+       echo $port "可用"
+       break
+    else
+        ((port++))
+    fi
+done
+
+python app.py --port $port
