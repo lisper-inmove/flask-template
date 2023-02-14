@@ -12,7 +12,6 @@ class BaseCtrl(BaseCls):
         super().__init__(*args, **kargs)
         self.operate = kargs.get('operate', None)
         self._manager = None
-        self._OPF = dict()
         self._init(*args, **kargs)
 
     def _init(self, *args, **kargs):
@@ -53,9 +52,12 @@ class BaseCtrl(BaseCls):
     def do_operate(self):
         if self.operate is None:
             raise PopupError(f"操作未实现: {self.operate}")
-        if self.operate not in self._OPF:
+        if self.operate.startswith("_"):
             raise PopupError(f"操作未实现: {self.operate}")
-        return self._OPF[self.operate]()
+        cls = self.__class__
+        if self.operate not in cls.__dict__:
+            raise PopupError(f"操作未实现: {self.operate}")
+        return cls.__dict__[self.operate](self)
 
     def __getattr__(self, key):
         """controller中可以直接通过self.key的方式获取参数."""

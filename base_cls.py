@@ -2,6 +2,7 @@
 
 from collections import namedtuple
 from submodules.utils.sys_env import SysEnv
+from submodules.utils.protobuf_helper import ProtobufHelper
 
 
 class Constants:
@@ -24,6 +25,7 @@ class BaseCls:
     def __init__(self, *args, **kargs):
         self.C = Constants
         self.ListObjCls = namedtuple("ListObjCls", ['objs', 'count'])
+        self.PH = ProtobufHelper
 
     @property
     def is_test_env(self):
