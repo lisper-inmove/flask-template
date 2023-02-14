@@ -5,6 +5,7 @@ from functools import wraps
 from base_cls import BaseCls
 from submodules.utils.misc import Misc
 from submodules.utils.idate import IDate
+from view.errors import PopupError
 
 
 def ignore_none_argument(fn):
@@ -65,3 +66,12 @@ class BaseManager(BaseCls):
         obj.create_time_sec = IDate.now_timestamp()
         obj.update_time_sec = IDate.now_timestamp()
         return obj
+
+    def update_obj_status(self, obj, status):
+        if status is None:
+            return
+        try:
+            s = self.ObjStatus[status]
+            obj.status = s
+        except KeyError:
+            raise PopupError('状态错误')

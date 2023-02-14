@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from enum import IntEnum
 from collections import namedtuple
 from submodules.utils.sys_env import SysEnv
 from submodules.utils.protobuf_helper import ProtobufHelper
@@ -17,6 +18,16 @@ class Constants:
     SP_MATCH = 0x04
 
 
+class ObjStatus(IntEnum):
+
+    # 0表示启用状态
+    ACTIVE = 0x00
+    # -1表示禁用状态
+    INACTIVE = ~ACTIVE
+    # 1表示删除状态
+    DELETED = 0x01
+
+
 class BaseCls:
 
     ENV_TEST = "test"
@@ -24,8 +35,9 @@ class BaseCls:
 
     def __init__(self, *args, **kargs):
         self.C = Constants
-        self.ListObjCls = namedtuple("ListObjCls", ['objs', 'count'])
         self.PH = ProtobufHelper
+        self.ObjStatus = ObjStatus
+        self.ListObjCls = namedtuple("ListObjCls", ['objs', 'count'])
 
     @property
     def is_test_env(self):
