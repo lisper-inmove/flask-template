@@ -46,7 +46,7 @@ class BaseCtrl(BaseCls):
             return request.args.get(key, default)
         return default
 
-    def get_header_param(self, key, default):
+    def get_header_param(self, key, default=None):
         return request.headers.get(key, default)
 
     def do_operate(self):
