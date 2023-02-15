@@ -5,13 +5,14 @@ from concurrent import futures
 import grpc
 
 import gproto.api_pb2_grpc as api_pb_grpc
+from base_cls import BaseCls
 from submodules.utils.logger import Logger
 from view.view_helper import ViewHelper
 
 logger = Logger()
 
 
-class Api:
+class Api(BaseCls):
 
     source_ctrls = dict()
 
@@ -45,7 +46,7 @@ class Api:
         return m
 
     def run(self, host, port, max_workers=10):
-        logger.info(f">>>>> grpc 服务已启动: {host} {port} {max_workers} <<<<<")
+        logger.info(f">>>>> {self.app_name} grpc 服务已启动: {host} {port} {max_workers} <<<<<")
         server = grpc.server(futures.ThreadPoolExecutor(max_workers=max_workers))
         api_pb_grpc.add_APIServicer_to_server(self, server)
         server.add_insecure_port(f"{host}{port}")

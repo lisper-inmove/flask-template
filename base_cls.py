@@ -40,6 +40,10 @@ class BaseCls:
         self.ListObjCls = namedtuple("ListObjCls", ['objs', 'count'])
 
     @property
+    def app_name(self):
+        return SysEnv.get(SysEnv.APPNAME)
+
+    @property
     def is_test_env(self):
         return SysEnv.get(SysEnv.RUNTIME_ENVIRONMENT, self.ENV_PROD) == self.ENV_TEST
 
