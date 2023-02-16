@@ -14,7 +14,9 @@
    1. proto/xx 保存xx数据类型
    2. proto/vo/xx 保存xx数据类型的视图。也就是返回到前端的结构
 6. submodules: git子模块保存目录
-7. gproto: gRPC的proto保存目录。必须要有 api.proto，用于定义api
+7. gproto: gRPC的proto保存目录。用于定义api。以子模块的方式引入该gproto
+    如: git submodule add repo gproto。该repo的根目录中必须要有 api.proto 之后客户端使用api中调用的函数
+    如需使用该gRPC服务，还应创建 xxx_clients 的仓库，在该仓库中同样需要引入该 repo
 #+end_verse
 * 使用说明
 #+begin_verse
