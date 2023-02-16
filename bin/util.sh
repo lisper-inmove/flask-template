@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # 项目名称
-export APPNAME=user-manager
+export APPNAME=demo
 # 是否开启终端显示日志
 export LOGGER_ENABLE_CONSOLE=true
 # 是否开启syslog日志

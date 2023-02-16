@@ -1,15 +1,15 @@
 
 # Table of Contents
 
-1.  [作用](#orgff69ada)
-2.  [结构说明](#org560ca1b)
-3.  [使用说明](#org62e5731)
-4.  [运行demo](#org70916a9)
-5.  [如何添加一个新的实体](#orgecfbf7d)
+1.  [作用](#org28db6a8)
+2.  [结构说明](#org7fead17)
+3.  [使用说明](#orga4a9320)
+4.  [运行demo](#org52b6199)
+5.  [如何添加一个新的实体](#orgda0150d)
 
 
 
-<a id="orgff69ada"></a>
+<a id="org28db6a8"></a>
 
 # 作用
 
@@ -18,7 +18,7 @@
 </p>
 
 
-<a id="org560ca1b"></a>
+<a id="org7fead17"></a>
 
 # 结构说明
 
@@ -34,10 +34,11 @@
 7. gproto: gRPC的proto保存目录。用于定义api。以子模块的方式引入该gproto<br />
 &#xa0;&#xa0;&#xa0;&#xa0;如: git submodule add repo gproto。该repo的根目录中必须要有 api.proto 之后客户端使用api中调用的函数<br />
 &#xa0;&#xa0;&#xa0;&#xa0;如需使用该gRPC服务，还应创建 xxx\_clients 的仓库，在该仓库中同样需要引入该 repo<br />
+&#xa0;&#xa0;&#xa0;&#xa0;同时 gproto/A.proto 表示对 针对A 资源提供的接口的请求参数<br />
 </p>
 
 
-<a id="org62e5731"></a>
+<a id="orga4a9320"></a>
 
 # 使用说明
 
@@ -54,14 +55,14 @@
     ./test_run.sh
 
 
-<a id="org70916a9"></a>
+<a id="org52b6199"></a>
 
 # 运行demo
 
     git co demo && ./test_run.sh
 
 
-<a id="orgecfbf7d"></a>
+<a id="orgda0150d"></a>
 
 # 如何添加一个新的实体
 
