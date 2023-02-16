@@ -11,6 +11,7 @@ class BaseCtrl(BaseCls):
     def __init__(self, *args, **kargs):
         super().__init__(*args, **kargs)
         self.operate = kargs.get('operate', None)
+        self.request = request
         self._manager = None
         self._init(*args, **kargs)
 

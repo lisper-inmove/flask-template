@@ -89,9 +89,9 @@ class MongoDBHelper(MongoDBSingleHelper):
         result = {}
         if matcher is not None:
             for m in matcher:
-                v = m.get('v')
-                k = m.get('k')
-                t = m.get('t', self.C.EXACT_MATCH)
+                v = m.v
+                k = m.k
+                t = m.t or self.C.EXACT_MATCH
                 if None in (k, t, v):
                     continue
                 if t == self.C.EXACT_MATCH:
