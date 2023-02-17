@@ -1,15 +1,14 @@
 
 # Table of Contents
 
-1.  [作用](#org28db6a8)
-2.  [结构说明](#org7fead17)
-3.  [使用说明](#orga4a9320)
-4.  [运行demo](#org52b6199)
-5.  [如何添加一个新的实体](#orgda0150d)
+1.  [作用](#orgc10729d)
+2.  [结构说明](#org4488b0d)
+3.  [如何添加一个新的实体](#org5fe72c7)
+4.  [新建一个项目](#orgb8bb509)
 
 
 
-<a id="org28db6a8"></a>
+<a id="orgc10729d"></a>
 
 # 作用
 
@@ -18,7 +17,7 @@
 </p>
 
 
-<a id="org7fead17"></a>
+<a id="org4488b0d"></a>
 
 # 结构说明
 
@@ -32,45 +31,30 @@
 &#xa0;&#xa0;&#xa0;2. proto/vo/xx 保存xx数据类型的视图。也就是返回到前端的结构<br />
 6. submodules: git子模块保存目录<br />
 7. gproto: gRPC的proto保存目录。用于定义api。以子模块的方式引入该gproto<br />
-&#xa0;&#xa0;&#xa0;&#xa0;如: git submodule add repo gproto。该repo的根目录中必须要有 api.proto 之后客户端使用api中调用的函数<br />
-&#xa0;&#xa0;&#xa0;&#xa0;如需使用该gRPC服务，还应创建 xxx\_clients 的仓库，在该仓库中同样需要引入该 repo<br />
-&#xa0;&#xa0;&#xa0;&#xa0;同时 gproto/A.proto 表示对 针对A 资源提供的接口的请求参数<br />
 </p>
 
 
-<a id="orga4a9320"></a>
-
-# 使用说明
-
-<p class="verse">
-1. 更新子模块<br />
-</p>
-
-    git submodule update --init --recursive
-
-<p class="verse">
-2. 启动服务<br />
-</p>
-
-    ./test_run.sh
-
-
-<a id="org52b6199"></a>
-
-# 运行demo
-
-    git co demo && ./test_run.sh
-
-
-<a id="orgda0150d"></a>
+<a id="org5fe72c7"></a>
 
 # 如何添加一个新的实体
 
 <p class="verse">
 1. 创建 /proto/XXX/new-x.proto: **cm** snippet<br />
-2. 创建 /proto/vo/XXX/new-x.proto: **cpvo** snippet<br />
-3. 创建 /dao/XXX/new-x.py: **cda** yasnippet<br />
-4. 创建 /manager/XXX/new-x.py: **cmn** yasnippet<br />
-5. 创建 /ctrl/XXX/new-x.py: **cct** yasnippet<br />
-6. 创建 /view/XXX/new-x.py: **cvi** yasnippet<br />
+2. 创建 /dao/XXX/new-x.py: **cda** yasnippet<br />
+3. 创建 /manager/XXX/new-x.py: **cmn** yasnippet<br />
+4. 创建 /ctrl/XXX/new-x.py: **cct** yasnippet<br />
+5. 在 gproto/添加 new-x.proto 使用 **capi** yasnippet 添加基础接口以及其返回的VO<br />
+</p>
+
+
+<a id="orgb8bb509"></a>
+
+# 新建一个项目
+
+<p class="verse">
+1. frok from flask-template named A<br />
+2. create project A-gproto<br />
+3. create api.proto in A-gproto if you need gRPC<br />
+3. create project-client if A is a backend service<br />
+4. add A-gproto as A's submodule. `git submodule add A-gproto gproto`<br />
 </p>
