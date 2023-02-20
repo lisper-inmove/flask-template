@@ -31,4 +31,5 @@
 3. create api.proto in A-gproto if you need gRPC
 3. create project-client if A is a backend service
 4. add A-gproto as A's submodule. =git submodule add A-gproto gproto=
+5. update url-prefix at viwe/view-port.py
 #+end_verse

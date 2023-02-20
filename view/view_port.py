@@ -14,6 +14,8 @@ view_helper = ViewHelper("ctrl/hctrl")
 @_view_port.route("/<string:operate>", methods=["POST"])
 def view_port(source, operate):
     """视图层."""
+    if '-' in operate:
+        operate = operate.replace('-', '_')
     ctrl = view_helper.ctrls[source](operate=operate)
     result = ctrl.do_operate()
     return UnifyResponse.R(PH.to_json(result))

@@ -1,14 +1,14 @@
 
 # Table of Contents
 
-1.  [作用](#orgc10729d)
-2.  [结构说明](#org4488b0d)
-3.  [如何添加一个新的实体](#org5fe72c7)
-4.  [新建一个项目](#orgb8bb509)
+1.  [作用](#orgf90b3a6)
+2.  [结构说明](#org2fcac36)
+3.  [如何添加一个新的实体](#orgc06aa0c)
+4.  [新建一个项目](#org1c8815f)
 
 
 
-<a id="orgc10729d"></a>
+<a id="orgf90b3a6"></a>
 
 # 作用
 
@@ -17,7 +17,7 @@
 </p>
 
 
-<a id="org4488b0d"></a>
+<a id="org2fcac36"></a>
 
 # 结构说明
 
@@ -34,7 +34,7 @@
 </p>
 
 
-<a id="org5fe72c7"></a>
+<a id="orgc06aa0c"></a>
 
 # 如何添加一个新的实体
 
@@ -47,7 +47,7 @@
 </p>
 
 
-<a id="orgb8bb509"></a>
+<a id="org1c8815f"></a>
 
 # 新建一个项目
 
@@ -57,4 +57,5 @@
 3. create api.proto in A-gproto if you need gRPC<br />
 3. create project-client if A is a backend service<br />
 4. add A-gproto as A's submodule. `git submodule add A-gproto gproto`<br />
+5. update url-prefix at viwe/view-port.py<br />
 </p>
