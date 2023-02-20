@@ -30,6 +30,9 @@ class ViewHelper:
         """加载某一个ctrl."""
         if not filepath.endswith("py"):
             return
+        filename = Path(filepath).name
+        if filename.startswith(".#"):  # 忽略emacs生成的临时文件
+            return
         spec = importlib.util.spec_from_file_location(self.directory, filepath)
         module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(module)
