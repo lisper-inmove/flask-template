@@ -1,16 +1,22 @@
 # -*- coding: utf-8 -*-
 
 import os
+import re
+import inspect
 import importlib.util
 from pathlib import Path
 
 from submodules.utils.sys_env import SysEnv
 from submodules.utils.logger import Logger
 
+from ctrl.base_ctrl import BaseCtrl
+
 logger = Logger()
 
 
 class ViewHelper:
+
+    pattern = re.compile('(?!^)([A-Z]+)')
 
     def __init__(self, directory):
         self.directory = directory
@@ -41,9 +47,15 @@ class ViewHelper:
             if attr.startswith("__"):
                 continue
             _ctrl = module.__dict__.get(attr)
-            if not hasattr(_ctrl, "___name___"):
+            if not inspect.isclass(_ctrl):
                 continue
-            if _ctrl.___name___ in self.ctrls:
+            if not issubclass(_ctrl, BaseCtrl):
                 continue
-            logger.info(f"导入ctrl: {_ctrl} {id(self.ctrls)}")
-            self.ctrls.update({_ctrl.___name___: _ctrl})
+            if _ctrl == BaseCtrl:
+                continue
+            snake_name = self.pattern.sub(r'_\1', _ctrl.__name__).lower()
+            name = "_".join(snake_name.split("_")[:-1])
+            if name in self.ctrls:
+                continue
+            self.ctrls.update({name: _ctrl})
+            logger.info(f"导入ctrl: {_ctrl} {self.ctrls}")

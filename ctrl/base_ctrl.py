@@ -8,9 +8,30 @@ from view.errors import PopupError
 
 class BaseCtrl(BaseCls):
 
+    POST = "POST"
+    GET = "GET"
+    HEAD = "HEAD"
+    DELETE = "DELETE"
+    PUT = "PUT"
+
+    @property
+    def operate(self):
+        method = request.method
+        if method == self.POST:
+            return self._operate
+        if method == self.GET:
+            return f"{self._operate}_GET"
+        if method == self.DELETE:
+            return f"{self._operate}_DELETE"
+        if method == self.PUT:
+            return f"{self._operate}_PUT"
+        if method == self.HEAD:
+            return f"{self._operate}_HEAD"
+        raise PopupError("Method Not Supported")
+
     def __init__(self, *args, **kargs):
         super().__init__(*args, **kargs)
-        self.operate = kargs.get('operate', None)
+        self._operate = kargs.get('operate', None)
         self.request = request
         self._manager = None
         self._init(*args, **kargs)
