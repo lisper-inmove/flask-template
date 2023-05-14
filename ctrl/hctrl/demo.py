@@ -11,3 +11,6 @@ class DemoCtrl(BaseCtrl):
 
     def test_HEAD(self):
         return "Head Success"
+
+    def weather(self):
+        return "Hot"
