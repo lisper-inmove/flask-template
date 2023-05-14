@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+message CreateDemoReq {
+  string name = 1;
+}
+
+message UpdateDemoReq {
+  string id = 1;
+  string name = 2;
+}
+
+message UpdateDemoResp {
+  string name = 1;
+}
+
+message DeleteDemoReq {
+  string id = 1;
+}
+
+message ListDemoReq {
+  repeated string ids = 1;
+}

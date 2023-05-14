@@ -11,25 +11,85 @@
 3. ctrl: 控制层,与manager对接，业务逻辑控制
 4. view: 视图层,与ctrl对接
 5. proto: protobuf保存目录
-   1. proto/xx 保存xx数据类型
-   2. proto/vo/xx 保存xx数据类型的视图。也就是返回到前端的结构
 6. submodules: git子模块保存目录
-7. gproto: gRPC的proto保存目录。用于定义api。以子模块的方式引入该gproto
+7. gproto: gRPC的proto保存目录
+8. api: 对外提供的服务
 #+end_verse
-* 如何添加一个新的实体
+* 安装protoc到Path
 #+begin_verse
-1. 创建 /proto/XXX/new-x.proto: *cm* snippet
-2. 创建 /dao/XXX/new-x.py: *cda* yasnippet
-3. 创建 /manager/XXX/new-x.py: *cmn* yasnippet
-4. 创建 /ctrl/XXX/new-x.py: *cct* yasnippet
-5. 在 gproto/添加 new-x.proto 使用 *capi* yasnippet 添加基础接口以及其返回的VO
+在 https://github.com/protocolbuffers/protobuf/releases 下载最新的protoc二进制文件
 #+end_verse
-* 新建一个项目
+* 保存bp
 #+begin_verse
-1. frok from flask-template named A
-2. create project A-gproto
-3. create api.proto in A-gproto if you need gRPC
-3. create project-client if A is a backend service
-4. add A-gproto as A's submodule. =git submodule add A-gproto gproto=
-5. update url-prefix at viwe/view-port.py
+将以下脚本保存在PATH路径下,取名为 bp，该脚本用于批量将protobuf文件转成py文件
+#+end_verse
+#+begin_src shell
+  #!/bin/bash
+  ipath="."
+
+  function walk_proto() {
+      include_path=()
+      for d in `find ${1}`
+      do
+          if [[ $d = $1 ]];then
+              continue
+          elif [[ -f $d ]];then
+               if [[ ${d##*.} = "proto" ]];then
+                  c="protoc $d --python_out=. -I${ipath}"
+                  for inc_path in ${include_path[@]};do
+                      if [ -d $inc_path ];then
+                          c="$c -I${inc_path}"
+                      fi
+                  done
+                  `$c`
+                  echo "$c ==> $?"
+              fi
+          elif [[ -d $d ]];then
+              walk_proto $d
+          fi
+      done
+  }
+
+  function walk_gproto() {
+      include_path=()
+      for d in `find ${1}`
+      do
+          if [[ $d = $1 ]];then
+              continue
+          elif [[ -f $d ]];then
+               if [[ $d == *"api.proto" ]];then # 以api.proto结尾的
+                  c="python -m grpc_tools.protoc --python_out=. --grpc_python_out=. $d -I${ipath}"
+                  for inc_path in ${include_path[@]};do
+                      if [ -d $inc_path ];then
+                          c="$c -I${inc_path}"
+                      fi
+                  done
+                  `$c`
+                  echo "$c ==> $?"
+              fi
+          elif [[ -d $d ]];then
+              walk_gproto $d
+          fi
+      done
+  }
+
+  paths=("./proto" "./api")
+  for path in ${paths[@]}
+  do
+      if [ -d $path ];then
+         walk_proto $path
+      fi
+  done
+
+  paths=("./gproto" "./gapi")
+  for path in ${paths[@]}
+  do
+      if [ -d $path ];then
+         walk_gproto $path
+      fi
+  done
+#+end_src
+* 启动服务
+#+begin_verse
+查看Makefile文件
 #+end_verse
