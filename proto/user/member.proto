@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package member;
+
+message Membership {
+  string user_id = 1;
+  MembershipLevel level = 2;
+  int64 create_time = 3;
+  // 当前会员截至日期
+  int64 expire_at = 4;
+}
+
+message MembershipLevelConfig {
+  repeated MembershipLevel levels = 1;
+}
+
+message MembershipLevel {
+  int32 level = 1;
+  string name = 2;
+}
+
+message MembershipRechargeConfig {
+  // 索引0~n与MembershipLevel.level相对应
+  repeated int32 sell_prices = 1;
+}

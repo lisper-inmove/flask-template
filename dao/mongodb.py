@@ -9,6 +9,7 @@ from submodules.utils.singleton import SingletonMetaThreadSafe as SingletonMetac
 from submodules.utils.sys_env import SysEnv
 from submodules.utils.logger import Logger
 from submodules.utils.profile import FuncTimeExpend
+from submodules.utils.protobuf_helper import ProtobufHelper
 
 logger = Logger()
 
@@ -57,8 +58,9 @@ class MongoDBHelper(MongoDBSingleHelper):
     def update_one(self, matcher, json_obj, upsert=False):
         return self._coll.update_one(matcher, {"$set": json_obj}, upsert=upsert)
 
-    def find_one(self, matcher):
-        return self._coll.find_one(matcher)
+    def find_one(self, matcher, cls):
+        obj = self._coll.find_one(matcher)
+        return ProtobufHelper.to_obj(obj, cls)
 
     def count(self, matcher):
         count = self._coll.count_documents(matcher)

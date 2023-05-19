@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+message SignUpRequest {
+  string phone = 1;
+  string username = 2;
+  string password = 3;
+}
+
+message LoginRequest {
+  string phone = 1;
+  string username = 2;
+  string password = 3;
+}
+
+message CommonUserResponse {
+  string username = 1;
+  string token = 2;
+}

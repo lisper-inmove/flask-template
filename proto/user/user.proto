@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package user;
+
+message User {
+  string id = 1;
+  string username = 2;
+  string phone = 3;
+  // md5加密
+  string password = 4;
+  int64 create_time_sec = 5;
+  int64 update_time_sec = 6;
+}

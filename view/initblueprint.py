@@ -43,6 +43,7 @@ class InitBlueprint:
 
         @self.app.errorhandler(Exception)
         def error_handler(e):
+            logger.info(e)
             logger.info(traceback.print_tb(e.__traceback__))
             if isinstance(e, Error) or issubclass(e.__class__, Error):
                 return UnifyResponse.R(rs=(e.code, e.msg))

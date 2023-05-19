@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+message Transaction {
+  enum Status {
+    CREATED = 0;
+    SUCCEED = 1;
+    REFUNDED = 2;
+    CANCELLED = 3;
+  }
+  // 支付用户ID
+  string payer_id = 1;
+  int64 create_time = 2;
+  int64 success_time = 3;
+  int32 paid_fee = 4;
+  Status status = 5;
+}
