@@ -20,12 +20,19 @@ class UserManager(BaseManager):
         user.username = req.username
         user.phone = req.phone
         user.password = req.password
+        user.email = req.email
+        if user.phone == "":
+            user.username = user.email
+        if user.email == "":
+            user.username = user.phone
         return user
 
     def login(self, req):
-        user = self.user_da.login_by_phone(req.phone, req.password)
-        if not user:
-            user = self.user_da.login_by_username(req.username, req.password)
+        user = None
+        if req.phone != "":
+            user = self.user_da.login_by_phone(req.phone, req.password)
+        if req.email != "":
+            user = self.user_da.login_by_email(req.email, req.password)
         if not user:
             raise PopupError("账号不存在或密码错误")
         return user
@@ -34,3 +41,13 @@ class UserManager(BaseManager):
         if not user:
             return None
         self.user_da.add_or_update_user(user)
+
+    def check_phone_exists(self, req):
+        if req.phone == "":
+            return None
+        return self.user_da.check_phone_exists(req.phone)
+
+    def check_email_exists(self, req):
+        if req.email == "":
+            return None
+        return self.user_da.check_email_exists(req.email)

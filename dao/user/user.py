@@ -26,3 +26,13 @@ class UserDA(MongoDBHelper):
     def login_by_username(self, username, password):
         matcher = {"username": username, 'password': password}
         return self.find_one(matcher, user_pb.User)
+
+    def login_by_email(self, email, password):
+        matcher = {"email": email, 'password': password}
+        return self.find_one(matcher, user_pb.User)
+
+    def check_phone_exists(self, phone):
+        return self.find_one({'phone': phone}, user_pb.User)
+
+    def check_email_exists(self, email):
+        return self.find_one({'email': email}, user_pb.User)
