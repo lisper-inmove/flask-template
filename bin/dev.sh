@@ -6,4 +6,4 @@ port=$(get_available_port)
 
 echo "获取到的port: $port"
 
-python app.py --port $port
+python app.py --port $port --host 0.0.0.0

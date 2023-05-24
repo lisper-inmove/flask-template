@@ -2,6 +2,7 @@ import api.user_api_pb2 as api_pb
 from ctrl.base_ctrl import BaseCtrl
 from manager.user.user import UserManager
 from submodules.utils.jwt_util import JWTUtil
+from view.errors import PopupError
 
 
 class UserCtrl(BaseCtrl):
@@ -26,3 +27,9 @@ class UserCtrl(BaseCtrl):
         resp.token = JWTUtil().generate_token(
             payload={"username": user.username, "id": user.id})
         return resp
+
+    def check_token(self):
+        req = self.get_request_obj(api_pb.CheckTokenRequest)
+        req.token = self.get_header_param("token")
+        JWTUtil().decode(req.token)
+        return self.empty_data_response()

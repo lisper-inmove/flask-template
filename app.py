@@ -3,6 +3,7 @@
 import os
 
 from flask import Flask
+from flask_cors import CORS
 from submodules.utils.sys_env import SysEnv
 SysEnv.set(SysEnv.APPROOT, os.getcwd())
 from view.initblueprint import InitBlueprint
@@ -10,6 +11,7 @@ from view.initblueprint import InitBlueprint
 app = Flask(SysEnv.get(SysEnv.APPNAME, "demo"))
 
 InitBlueprint(app)
+CORS(app)
 
 if __name__ == '__main__':
     import argparse

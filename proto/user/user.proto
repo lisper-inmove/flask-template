@@ -6,6 +6,7 @@ message User {
   string id = 1;
   string username = 2;
   string phone = 3;
+  string email = 7;
   // md5加密
   string password = 4;
   int64 create_time_sec = 5;
