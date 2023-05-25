@@ -66,6 +66,9 @@ class MongoDBHelper(MongoDBSingleHelper):
         count = self._coll.count_documents(matcher)
         return count
 
+    def delete_one(self, matcher):
+        return self._coll.delete_one(matcher)
+
     @FuncTimeExpend(prefix="批量查找>>>>>: ")
     def find_many(self, matcher, sortby=None, page=None, size=None):
         # matcher为None时不查询数据
