@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package user;
+
+message Role {
+  string id = 1;
+  string name = 2;
+  repeated string permission_ids = 3;
+}
+
+message RoleGroup {
+  string id = 1;
+  string name = 2;
+  repeated string permission_ids = 3;
+}

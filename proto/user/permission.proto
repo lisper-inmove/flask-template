@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package user;
+
+message Permission {
+  string id = 1;
+  string name = 2;
+  // 权限描述
+  string description = 3;
+  // 资源ID
+  string resource_id = 4;
+  // 0表示不可以操作,1表示可以操作。以下表示从低位开始第n位
+  // 0: 表示增加
+  // 1: 表示删除
+  // 2: 表示查找
+  // 3: 表示修改
+  int32 operation = 5;
+}
