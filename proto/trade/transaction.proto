@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+message Transaction {
+  enum Status {
+    CREATED = 0;
+    SUCCEED = 1;
+    REFUNDED = 2;
+    CANCELLED = 3;
+  }
+  // 商户订单ID
+  string id = 1;
+  // 支付商(支付宝,微信)订单ID
+  string third_party_id = 2;
+  // 支付用户ID
+  string payer_id = 3;
+  int64 create_time_sec = 4;
+  int64 update_time_sec = 5;
+  int64 success_time = 6;
+  int32 pay_fee = 7;
+  Status status = 8;
+}

@@ -5,7 +5,10 @@ from flask import request
 import api.common_api_pb2 as common_api_pb
 from base_cls import BaseCls
 from submodules.utils.protobuf_helper import ProtobufHelper
+from submodules.utils.logger import Logger
 from view.errors import PopupError
+
+logger = Logger()
 
 
 class BaseCtrl(BaseCls):
@@ -45,12 +48,14 @@ class BaseCtrl(BaseCls):
 
     def get_request_obj(self, cls):
         if request.method == self.POST:
+            logger.info(f"请求参数: {request.get_json()}")
             return self.PH.to_obj(request.get_json(), cls)
         if request.method == self.GET:
             return self.PH.to_obj(request.args, cls)
         return None
 
     def get_header_param(self, key, default=None):
+        logger.info(f"请求头: {request.headers}")
         return request.headers.get(key, default)
 
     def do_operate(self):
