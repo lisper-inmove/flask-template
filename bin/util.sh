@@ -5,7 +5,7 @@ export APPNAME=demo
 # 是否开启终端显示日志
 export LOGGER_ENABLE_CONSOLE=true
 # 是否开启syslog日志
-export LOGGER_ENABLE_SYSLOG=true
+export LOGGER_ENABLE_SYSLOG=false
 # syslog日志服务器地址
 export LOGGER_SYSLOG_HOST=logger.server
 # syslog日志服务端口
@@ -15,7 +15,7 @@ export LOGGER_SYSLOG_FACILITY=local7
 # MongoDB数据库ip
 export MONGODB_SERVER_ADDRESS=127.0.0.1
 # MongoDB数据库端口
-export MONGODB_PORT=27018
+export MONGODB_PORT=27017
 # 服务启动环境
 export RUNTIME_ENVIRONMENT=test
 

@@ -1,6 +1,7 @@
 import api.trade_api_pb2 as trade_api_pb
 from ctrl.base_ctrl import BaseCtrl
 from manager.trade.transaction import TransactionManager
+from submodules.payment.alipay.alipay_f2f import AlipayF2F
 
 
 class TransactionCtrl(BaseCtrl):
@@ -17,4 +18,6 @@ class TransactionCtrl(BaseCtrl):
         return self.__alipay_prepay(transaction)
 
     def __alipay_prepay(self, transaction):
-        pass
+        obj = AlipayF2F()
+        result = obj.prepay(transaction)
+        return result
