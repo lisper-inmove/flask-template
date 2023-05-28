@@ -1,0 +1,10 @@
+Flask
+grpcio
+grpcio-tools
+openpyxl
+Pillow
+protobuf
+PyJWT
+pymongo
+pytz
+xlsxwriter
