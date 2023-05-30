@@ -9,6 +9,7 @@ SysEnv.set(SysEnv.APPROOT, os.getcwd())
 from view.initblueprint import InitBlueprint
 
 app = Flask(SysEnv.get(SysEnv.APPNAME, "demo"))
+CORS(app)
 
 InitBlueprint(app)
 CORS(app)
