@@ -58,8 +58,11 @@ class MongoDBHelper(MongoDBSingleHelper):
     def update_one(self, matcher, json_obj, upsert=False):
         return self._coll.update_one(matcher, {"$set": json_obj}, upsert=upsert)
 
-    def find_one(self, matcher, cls):
-        obj = self._coll.find_one(matcher)
+    def find_one(self, matcher, cls, exclude=None):
+        if exclude is not None:
+            obj = self._coll.find_one(matcher, exclude)
+        else:
+            obj = self._coll.find_one(matcher)
         return ProtobufHelper.to_obj(obj, cls)
 
     def count(self, matcher):
@@ -87,6 +90,7 @@ class MongoDBHelper(MongoDBSingleHelper):
         page = int(page)
         size = int(size)
         skip = (page - 1) * size
+        logger.info(f">>>> find_many: {matcher} -> sortby: {sortby}, skip: {skip}")
         result = self._coll.find(matcher).sort(sortby).skip(skip).limit(size)
         return result
 
