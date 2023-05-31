@@ -4,3 +4,6 @@
 [submodule "proto/common"]
 	path = proto/common
 	url = git@github.com:lisper-inmove/common-protos.git
+[submodule "submodules/payment"]
+	path = submodules/payment
+	url = git@github.com:lisper-inmove/payment.git
