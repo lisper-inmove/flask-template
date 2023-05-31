@@ -20,7 +20,7 @@ export MONGODB_PORT=27017
 export RUNTIME_ENVIRONMENT=test
 
 function get_available_port() {
-    port=6003
+    port=3001
     while true
     do
         declare -i flag

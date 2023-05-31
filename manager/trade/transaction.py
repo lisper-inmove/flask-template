@@ -18,7 +18,12 @@ class TransactionManager(BaseManager):
         t = self.create_obj(transaction_pb.Transaction)
         t.pay_fee = req.pay_fee
         t.payer_id = req.payer_id
+        t.pay_method = transaction_pb.Transaction.PayMethod.Value(req.pay_method)
         return t
+
+    def get_transaction(self, req):
+        transaction = self.transaction_da.get_transaction_by_id(req.transaction_id)
+        return transaction
 
     def add_or_update_transaction(self, transaction):
         self.transaction_da.add_or_update_transaction(transaction)

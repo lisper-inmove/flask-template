@@ -14,3 +14,12 @@ class TransactionDA(MongoDBHelper):
     def get_transaction_by_id(self, id):
         matcher = {"id": id}
         return self.find_one(matcher, transaction_pb.Transaction)
+
+    def get_transactions_by_create_time_periods(self, create_time_periods):
+        matcher = {
+            "create_time_sec": {
+                "$gt": str(create_time_periods[0]),
+                "$lt": str(create_time_periods[1])
+            }
+        }
+        return self.find_many(matcher)

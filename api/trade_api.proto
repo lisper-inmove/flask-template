@@ -5,4 +5,24 @@ package api;
 message PrepayRequest {
   int32 pay_fee = 1;
   string payer_id = 2;
+  string pay_method = 3;
+}
+
+message QueryRequest {
+  string transaction_id = 1;
+  string pay_method = 2;
+}
+
+message PrepayResponse {
+  string transaction_id = 1;
+  // 支付方式
+  string pay_method = 2;
+  // 当面付功能
+  string qrcode_url = 3;
+}
+
+message QueryResponse {
+  string transaction_id = 1;
+  bool success = 2;
+  string reason = 3;
 }
