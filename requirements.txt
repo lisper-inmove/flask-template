@@ -9,3 +9,6 @@ PyJWT
 pymongo
 pytz
 xlsxwriter
+requests
+cryptography
+jwcrypto
