@@ -50,3 +50,7 @@ class BaseCls:
     @property
     def is_prod_env(self):
         return SysEnv.get(SysEnv.RUNTIME_ENVIRONMENT, self.ENV_PROD) == self.ENV_PROD
+
+    @property
+    def domain(self):
+        return SysEnv.get(SysEnv.DOMAIN)
