@@ -41,3 +41,7 @@ class BaseManager(BaseCls):
         obj.create_time_sec = IDate.now_timestamp()
         obj.update_time_sec = IDate.now_timestamp()
         return obj
+
+    def update_obj(self, obj):
+        obj.create_time_sec = IDate.now_timestamp()
+        obj.update_time_sec = IDate.now_timestamp()
