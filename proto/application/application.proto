@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package application;
+
+message Application {
+  string id = 1;
+  string name = 2;
+  int64 create_time_sec = 3;
+  int64 update_time_sec = 4;
+}

@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package config;
+
+
+message Config {
+  string id = 1;
+  string name = 2;
+  string application_id = 3;
+  int64 create_time_sec = 4;
+  int64 update_time_sec = 5;
+}
