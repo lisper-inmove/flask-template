@@ -11,4 +11,4 @@ ENV PORT=19993
 
 COPY . .
 
-CMD ["make", "prod"]
+CMD ["make", "uwsgi"]
