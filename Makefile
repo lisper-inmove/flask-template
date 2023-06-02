@@ -8,3 +8,5 @@ chatbot:
 	bash bin/chatbot.sh
 help:
 	bash bin/helper.sh
+prod:
+	bash bin/prod.sh $(PORT)

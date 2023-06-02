@@ -9,4 +9,4 @@ source bin/util.sh
 
 port=$(get_available_port)
 
-python gapp.py --port $port
+python gapp.py --port $port --debug
