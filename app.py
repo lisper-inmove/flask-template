@@ -15,7 +15,7 @@ if __name__ == '__main__':
     import argparse
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("--host", help="服务器", default="127.0.0.1")
+    parser.add_argument("--host", help="服务器", default="0.0.0.0")
     parser.add_argument("--port", help="端口", default=6003)
     parser.add_argument("--debug", help="调试模式", default=True, action="store_true")
 
