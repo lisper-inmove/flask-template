@@ -10,3 +10,5 @@ help:
 	bash bin/helper.sh
 prod:
 	bash bin/prod.sh $(PORT)
+uwsgi:
+	bash bin/uwsgi.sh $(PORT)
