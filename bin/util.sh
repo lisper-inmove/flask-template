@@ -5,7 +5,7 @@ export APPNAME=demo
 # 是否开启终端显示日志
 export LOGGER_ENABLE_CONSOLE=true
 # 是否开启syslog日志
-export LOGGER_ENABLE_SYSLOG=true
+export LOGGER_ENABLE_SYSLOG=false
 # syslog日志服务器地址
 export LOGGER_SYSLOG_HOST=logger.server
 # syslog日志服务端口
