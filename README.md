@@ -7,3 +7,11 @@
 # 正式环境启动
 
     PORT=19919 make prod
+
+# docker build
+
+    sudo docker build -t config-center . -f Containerfile
+
+# docker run
+
+    sudo docker run --rm -d --name config-center --network host config-center:latest
