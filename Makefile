@@ -7,8 +7,8 @@ gdev:
 prod:
 	bash bin/prod.sh $(PORT)
 build:
-	sudo docker build -t template . -f Containerfile
+	sudo docker build -t config-center . -f Containerfile
 run:
-	sudo docker run --rm -d --name template --network host template:latest
+	sudo docker run --rm -d --name config-center --network host config-center:latest
 uwsgi:
 	bash bin/uwsgi.sh $(PORT)
