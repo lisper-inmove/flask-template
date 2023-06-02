@@ -2,8 +2,8 @@
 
 source bin/util.sh
 
-port=$(get_available_port)
+port=$1
 
 echo "获取到的port: $port"
 
-python app.py --port $port --debug
+python app.py --port $port
