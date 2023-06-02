@@ -6,3 +6,5 @@ gdev:
 	bash bin/gdev.sh
 help:
 	bash bin/helper.sh
+prod:
+	bash bin/prod.sh $(PORT)
