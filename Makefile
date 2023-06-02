@@ -10,3 +10,5 @@ build:
 	sudo docker build -t config-center . -f Containerfile
 run:
 	sudo docker run --rm -d --name config-center --network host config-center:latest
+uwsgi:
+	bash bin/uwsgi.sh $(PORT)

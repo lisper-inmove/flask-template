@@ -22,6 +22,7 @@ executing==1.2.0
 flake8==6.0.0
 Flask==2.3.2
 Flask-Cors==3.0.10
+gevent==22.10.2
 greenlet==2.0.2
 grpcio==1.54.0
 grpcio-tools==1.54.0
@@ -44,7 +45,6 @@ mccabe==0.7.0
 mdurl==0.1.2
 msgpack==1.0.5
 multidict==6.0.4
-neovim==0.3.1
 packaging==23.1
 parso==0.8.3
 pexpect==4.8.0
@@ -91,6 +91,7 @@ tzdata==2023.3
 tzlocal==4.3
 ujson==5.7.0
 urllib3==1.26.15
+uWSGI @ file:///croot/uwsgi_1679988297904/work
 wcwidth==0.2.6
 Werkzeug==2.3.4
 whatthepatch==1.0.4
