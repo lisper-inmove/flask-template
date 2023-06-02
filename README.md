@@ -15,3 +15,7 @@
 # docker run
 
     sudo docker run --rm -d --name config-center --network host config-center:latest
+
+# Container文件修改
+
+    1. 修改 port
