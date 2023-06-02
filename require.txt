@@ -91,7 +91,6 @@ tzdata==2023.3
 tzlocal==4.3
 ujson==5.7.0
 urllib3==1.26.15
-uWSGI @ file:///croot/uwsgi_1679988297904/work
 wcwidth==0.2.6
 Werkzeug==2.3.4
 whatthepatch==1.0.4
@@ -100,3 +99,4 @@ xmltodict==0.13.0
 yapf==0.32.0
 zope.event==4.6
 zope.interface==6.0
+uwsgi
