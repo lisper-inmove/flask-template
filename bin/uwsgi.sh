@@ -6,7 +6,7 @@ port=$1
 
 echo "获取到的port: $port"
 
-sudo systemctl -w net.core.somaxconn=32768
+`sysctl -w net.core.somaxconn=32768`
 
 generate_ini () {
     cat > bin/server.ini <<-EOF
@@ -23,10 +23,10 @@ generate_ini () {
     vacuum = true
     reload-mercy = 1
     worker-reload-mercy = 1
-    listen = 2048
+    listen = 1024
 EOF
 }
 
 generate_ini
 
-uwsgi --gevent 4096 --gevent-early-monkey-patch bin/server.ini
+`uwsgi --gevent 4096 --gevent-early-monkey-patch bin/server.ini`
