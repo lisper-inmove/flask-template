@@ -23,7 +23,7 @@ generate_ini () {
     vacuum = true
     reload-mercy = 1
     worker-reload-mercy = 1
-    listen = 1024
+    listen = 4096
 EOF
 }
 

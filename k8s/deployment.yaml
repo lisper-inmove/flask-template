@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: config-center-ns
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: config-center-deployment
+  namespace: config-center-ns
+  labels:
+    name: config-center-deployment
+    version: v1.0
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: config-center-deployment
+      version: v1.0
+  template:
+    metadata:
+      labels:
+        name: config-center-deployment
+        version: v1.0
+    spec:
+      containers:
+      - name: config-center-container
+        image: inmove/config-center:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 19993
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: config-center
+  namespace: config-center-ns
+spec:
+  type: NodePort
+  ports:
+  - port: 19993
+    protocol: TCP
+    targetPort: 19993
+    nodePort: 20001
+  selector:
+    name: config-center-deployment
+    version: v1.0
