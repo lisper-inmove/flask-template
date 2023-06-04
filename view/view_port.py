@@ -17,7 +17,7 @@ def view_port(source, operate):
     if '-' in operate:
         operate = operate.replace('-', '_')
     if '-' in source:
-        source = operate.replace('-', '_')
+        source = source.replace('-', '_')
     ctrl = view_helper.ctrls[source](operate=operate)
     result = ctrl.do_operate()
     return UnifyResponse.R(PH.to_json(result))
