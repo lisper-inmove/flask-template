@@ -11,9 +11,9 @@ help:
 prod:
 	bash bin/prod.sh $(PORT)
 build:
-	sudo docker build -t template . -f Containerfile
+	sudo docker build -t chatbot . -f Containerfile
 run:
-	sudo docker run --rm -d --name template --network host template:latest
+	sudo docker run --rm -d --name chatbot --network host chatbot:latest
 uwsgi:
 	bash bin/uwsgi.sh $(PORT)
 check-trade:
