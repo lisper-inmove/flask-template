@@ -31,6 +31,9 @@ class RechargeConfigManager(BaseManager):
         recharge_config = self.recharge_config_da.get_recharge_config_by_id(id)
         return recharge_config
 
+    def delete_recharge_config_by_id(self, recharge_config):
+        self.recharge_config_da.delete_recharge_config_by_id(recharge_config.id)
+
     def add_or_update_recharge_config(self, recharge_config):
         if recharge_config is None:
             return

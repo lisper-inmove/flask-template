@@ -16,6 +16,10 @@ class RechargeConfigDA(MongoDBHelper):
         recharge_config = self.find_one(matcher, membership_pb.RechargeConfig)
         return recharge_config
 
+    def delete_recharge_config_by_id(self, id):
+        matcher = {"id": id}
+        self.delete_one(matcher)
+
     def get_recharge_configs(self):
         recharge_configs = self.find_many({}, enable_empty_matcher=True)
         return self.PH.batch_to_obj(
