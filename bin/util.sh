@@ -15,7 +15,7 @@ export LOGGER_SYSLOG_FACILITY=local7
 # MongoDB数据库ip
 export MONGODB_SERVER_ADDRESS=127.0.0.1
 # MongoDB数据库端口
-export MONGODB_PORT=27017
+export MONGODB_PORT=27018
 # 服务启动环境
 export RUNTIME_ENVIRONMENT=test
 

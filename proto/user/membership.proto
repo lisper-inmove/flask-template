@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package user;
+
+message RechargeRecord {
+  enum Status {
+    CREATED = 0;
+    PAID = 1;
+    REFUNDED = 2;
+  }
+  string id = 1;
+  // 把当时的配置完整记录下来,以便后面查询
+  RechargeConfig config = 2;
+  int64 create_time_sec = 3;
+  int64 update_time_sec = 4;
+  // 直到哪一秒有效
+  int64 valid_at = 5;
+  // 为方便查询,将用户ID保存在此
+  string user_id = 6;
+  Status status = 7;
+}
+
+message RechargeConfig {
+  // 数字越大,等级越高
+  enum Level {
+    NORMAL = 0;
+    GOLD = 1;
+    SILVER = 2;
+  }
+  string id = 1;
+  string name = 2;
+  Level level = 3;
+  // 秒: 100 表示从当前时间开始的100秒内有效
+  int64 valid_periods = 4;
+  int32 price = 5;
+  int64 create_time_sec = 6;
+  int64 update_time_sec = 7;
+}

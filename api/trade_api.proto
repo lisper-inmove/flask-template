@@ -6,6 +6,9 @@ message PrepayRequest {
   int32 pay_fee = 1;
   string payer_id = 2;
   string pay_method = 3;
+  string type = 4;
+  // 商品ID，单个商品时有效
+  string commodity_id = 5;
 }
 
 message QueryRequest {
@@ -24,5 +27,6 @@ message PrepayResponse {
 message QueryResponse {
   string transaction_id = 1;
   bool success = 2;
-  string reason = 3;
+  string msg = 3;
+  string sub_msg = 4;
 }

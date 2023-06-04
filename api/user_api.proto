@@ -24,4 +24,5 @@ message CommonUserResponse {
   string username = 1;
   string token = 2;
   int64 token_expire_at = 3;
+  bool is_plus_user = 4;
 }

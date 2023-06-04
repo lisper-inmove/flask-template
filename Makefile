@@ -16,3 +16,7 @@ run:
 	sudo docker run --rm -d --name template --network host template:latest
 uwsgi:
 	bash bin/uwsgi.sh $(PORT)
+check-trade:
+	export PYTHONPATH=`pwd` && source bin/util.sh && source bin/payment.sh && python scripts/trade_check_helper.py
+recharge-config-help:
+	export PYTHONPATH=`pwd` &&  source bin/util.sh && source bin/payment.sh && python scripts/recharge_config_helper.py

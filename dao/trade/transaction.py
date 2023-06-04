@@ -22,4 +22,5 @@ class TransactionDA(MongoDBHelper):
                 "$lt": str(create_time_periods[1])
             }
         }
-        return self.find_many(matcher)
+        transactions = self.find_many(matcher)
+        return self.PH.batch_to_obj(transactions, transaction_pb.Transaction)

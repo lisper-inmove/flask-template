@@ -37,6 +37,9 @@ class UserManager(BaseManager):
             raise PopupError("账号不存在或密码错误")
         return user
 
+    def get_user_by_id(self, id):
+        return self.user_da.get_user_by_id(id)
+
     def add_or_update_user(self, user):
         if not user:
             return None

@@ -79,12 +79,12 @@ def delete_one(self, matcher):
 
 
 @FuncTimeExpend(prefix="批量查找>>>>>: ")
-def find_many(self, matcher, sortby=None, page=None, size=None):
+def find_many(self, matcher, sortby=None, page=None, size=None, enable_empty_matcher=None):
     # matcher为None时不查询数据
     if matcher is None:
         return []
     # matcher为全量查询时不查询数据
-    if not matcher:
+    if not matcher and enable_empty_matcher is not True:
         return []
     # 默认为按照更新时间倒序
     if sortby is None:

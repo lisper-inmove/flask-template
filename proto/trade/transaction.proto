@@ -11,6 +11,9 @@ message Transaction {
     CASH = 0;
     ALIPAY_F2F = 1;
   }
+  enum Type {
+    CHATBOT_PLUS = 0;
+  }
   // 商户订单ID
   string id = 1;
   // 支付商(支付宝,微信)订单ID
@@ -23,4 +26,8 @@ message Transaction {
   int32 pay_fee = 7;
   Status status = 8;
   PayMethod pay_method = 9;
+  // 记录流水相关的订单
+  // (一笔订单有可能关联多个支付,但是一个流水一定只能关联一个订单)
+  string order_id = 10;
+  Type type = 11;
 }

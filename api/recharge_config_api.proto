@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+message CreateRechargeConfigRequest {
+  string name = 1;
+  string level = 2;
+  int64 valid_periods = 3;
+  int32 price = 4;
+}
+
+message QueryRechargeConfigRequest {
+  string id = 1;
+}
+
+message ListRechargeConfigRequest {
+  repeated QueryRechargeConfigResponse recharge_configs = 1;
+}
+
+message QueryRechargeConfigResponse {
+  string id = 1;
+  string name = 2;
+  string level = 3;
+  int64 valid_periods = 4;
+  int32 price = 5;
+}
