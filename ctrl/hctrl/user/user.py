@@ -58,5 +58,12 @@ class UserCtrl(BaseCtrl):
         if self.get_header_param("token") is None:
             raise PopupError("Token Not Exists")
         req.token = self.get_header_param("token")
-        JWTUtil().decode(req.token)
-        return self.empty_data_response()
+        info = JWTUtil().decode(req.token)
+        manager = UserManager()
+        user = manager.get_user_by_id(info.get("id"))
+        resp = api_pb.CommonUserResponse()
+        resp.username = user.username
+        resp.token = req.token
+        resp.token_expire_at = info.get("expire_at")
+        resp.is_plus_user = self.__is_plus_user(user)
+        return resp
