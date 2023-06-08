@@ -23,7 +23,7 @@ class UserCtrl(BaseCtrl):
         resp.token_expire_at = IDate.now_timestamp() + JWTUtil.TOKEN_VALID_TIME_PERIOD
         resp.token = JWTUtil().generate_token(
             payload={"username": user.username, "id": user.id})
-        resp.is_plus_user = self.__is_plus_user(user)
+        self.__is_plus_user(user, resp)
         return resp
 
     def login(self):
@@ -38,10 +38,10 @@ class UserCtrl(BaseCtrl):
         resp.token_expire_at = IDate.now_timestamp() + JWTUtil.TOKEN_VALID_TIME_PERIOD
         resp.token = JWTUtil().generate_token(
             payload={"username": user.username, "id": user.id})
-        resp.is_plus_user = self.__is_plus_user(user)
+        self.__is_plus_user(user, resp)
         return resp
 
-    def __is_plus_user(self, user):
+    def __is_plus_user(self, user, resp):
         """检查是否是高级用户."""
         recharge_record_manager = RechargeRecordManager()
         if not user:
@@ -49,8 +49,10 @@ class UserCtrl(BaseCtrl):
         record = recharge_record_manager.get_user_latest_paid_recharge_record(user)
         if not record:
             return False
+        resp.member_expire_at = record.valid_at
         if IDate.now_timestamp() > record.valid_at:
             return False
+        resp.is_plus_user = True
         return True
 
     def check_token(self):
@@ -65,5 +67,5 @@ class UserCtrl(BaseCtrl):
         resp.username = user.username
         resp.token = req.token
         resp.token_expire_at = info.get("expire_at")
-        resp.is_plus_user = self.__is_plus_user(user)
+        self.__is_plus_user(user, resp)
         return resp

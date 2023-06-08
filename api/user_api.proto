@@ -25,4 +25,5 @@ message CommonUserResponse {
   string token = 2;
   int64 token_expire_at = 3;
   bool is_plus_user = 4;
+  int64 member_expire_at = 5;
 }
