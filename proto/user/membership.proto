@@ -36,3 +36,14 @@ message RechargeConfig {
   int64 create_time_sec = 6;
   int64 update_time_sec = 7;
 }
+
+message Membership {
+  string id = 6;
+  string user_id = 1;
+  int64 create_time_sec = 2;
+  int64 update_time_sec = 3;
+  // 会员过期时间,这个值一般是管理员设置
+  int64 vip_expire_at = 4;
+  // 用户是否被禁用了,禁用了的用户是不能登陆的
+  bool is_disabled = 5;
+}

@@ -8,12 +8,17 @@ class UserDA(MongoDBHelper):
     coll = "___user_db___users___"
 
     def add_or_update_user(
-            self,
-            user: user_pb.User
+        self,
+        user: user_pb.User
     ):
         matcher = {"id": user.id}
         json_data = ProtobufHelper.to_json(user)
         self.update_one(matcher, json_data, upsert=True)
+
+    def list_user(self, last_create_time):
+        matcher = {"create_time_sec": {"$lt": str(last_create_time)}}
+        users = self.find_many(matcher, sortby=[("create_time_sec", -1)])
+        return self.PH.batch_to_obj(users, user_pb.User)
 
     def get_user_by_id(self, id):
         matcher = {"id": id}

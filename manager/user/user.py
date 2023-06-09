@@ -2,6 +2,7 @@ import proto.user.user_pb2 as user_pb
 from manager.base_manager import BaseManager
 from dao.user.user import UserDA
 from view.errors import PopupError
+from submodules.utils.idate import IDate
 
 
 class UserManager(BaseManager):
@@ -36,6 +37,14 @@ class UserManager(BaseManager):
         if not user:
             raise PopupError("账号不存在或密码错误")
         return user
+
+    def list_user(self, req):
+        if req.last_create_time == 0:
+            req.last_create_time = IDate.now_timestamp()
+        return self.user_da.list_user(req.last_create_time)
+
+    def count_user(self):
+        return self.user_da.count({})
 
     def get_user_by_id(self, id):
         return self.user_da.get_user_by_id(id)

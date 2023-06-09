@@ -2,7 +2,7 @@ import api.user_api_pb2 as api_pb
 from ctrl.base_ctrl import BaseCtrl
 from manager.user.user import UserManager
 from manager.user.recharge_record import RechargeRecordManager
-from manager.trade.transaction import TransactionManager
+from manager.user.membership import MembershipManager
 from submodules.utils.jwt_util import JWTUtil
 from submodules.utils.idate import IDate
 from view.errors import PopupError
@@ -23,7 +23,7 @@ class UserCtrl(BaseCtrl):
         resp.token_expire_at = IDate.now_timestamp() + JWTUtil.TOKEN_VALID_TIME_PERIOD
         resp.token = JWTUtil().generate_token(
             payload={"username": user.username, "id": user.id})
-        self.__is_plus_user(user, resp)
+        self.__is_vip(user, resp)
         return resp
 
     def login(self):
@@ -38,21 +38,28 @@ class UserCtrl(BaseCtrl):
         resp.token_expire_at = IDate.now_timestamp() + JWTUtil.TOKEN_VALID_TIME_PERIOD
         resp.token = JWTUtil().generate_token(
             payload={"username": user.username, "id": user.id})
-        self.__is_plus_user(user, resp)
+        self.__is_vip(user, resp)
         return resp
 
-    def __is_plus_user(self, user, resp):
+    def __is_vip(self, user, resp):
         """检查是否是高级用户."""
         recharge_record_manager = RechargeRecordManager()
         if not user:
             return False
+        membership_manager = MembershipManager()
+        membership = membership_manager.get_or_create_membership_by_user(user)
+        if membership.is_disabled:
+            return False
         record = recharge_record_manager.get_user_latest_paid_recharge_record(user)
         if not record:
             return False
-        resp.member_expire_at = record.valid_at
+        resp.vip_expire_at = record.valid_at
+        if membership and membership.vip_expire_at != 0 and \
+           membership.update_time_sec > record.update_time_sec:
+            resp.vip_expire_at = membership.vip_expire_at
         if IDate.now_timestamp() > record.valid_at:
             return False
-        resp.is_plus_user = True
+        resp.is_vip = True
         return True
 
     def check_token(self):
@@ -67,5 +74,59 @@ class UserCtrl(BaseCtrl):
         resp.username = user.username
         resp.token = req.token
         resp.token_expire_at = info.get("expire_at")
-        self.__is_plus_user(user, resp)
+        self.__is_vip(user, resp)
+        return resp
+
+    def list(self):
+        req = self.get_request_obj(api_pb.ListUserRequest)
+        manager = UserManager()
+        users = manager.list_user(req)
+        resp = self.__convert_user_to_UserInfoResponses(users)
+        resp.count = manager.count_user()
+        return resp
+
+    def disable_or_enable_vip(self):
+        """禁用某一个用户的vip时间"""
+        req = self.get_request_obj(api_pb.DisableOrEnableVipRequest)
+        manager = UserManager()
+        user = manager.get_user_by_id(req.user_id)
+        membership_manager = MembershipManager()
+        membership = membership_manager.get_or_create_membership_by_user(user)
+        membership_manager.disable_or_enable_vip(
+            membership, req.disable)
+        membership_manager.add_or_update_membership(membership)
+        return self.empty_data_response()
+
+    def extend_vip_expire_time(self):
+        """延长某一个用户的vip时限"""
+        req = self.get_request_obj(api_pb.ExtendVipExpireTimeRequest)
+        from datetime import datetime
+        manager = UserManager()
+        user = manager.get_user_by_id(req.user_id)
+        membership_manager = MembershipManager()
+        membership = membership_manager.get_or_create_membership_by_user(user)
+        membership_manager.extend_vip_expire_time(membership, req.vip_expire_at)
+        membership_manager.add_or_update_membership(membership)
+        return self.empty_data_response()
+
+    def __convert_user_to_CommonUserResponse(self, user):
+        resp = api_pb.CommonUserResponse()
+        resp.username = user.username
+        self.__is_vip(user, resp)
+        return resp
+
+    def __convert_user_to_UserInfoResponse(self, user):
+        resp = api_pb.UserInfoResponse()
+        resp.id = user.id
+        resp.username = user.username
+        resp.phone = user.phone
+        resp.email = user.email
+        resp.create_time = user.create_time_sec
+        self.__is_vip(user, resp)
+        return resp
+
+    def __convert_user_to_UserInfoResponses(self, users):
+        resp = api_pb.ListUserResponse()
+        for user in users:
+            resp.users.add().CopyFrom(self.__convert_user_to_UserInfoResponse(user))
         return resp
