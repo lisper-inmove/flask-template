@@ -40,7 +40,6 @@ message CommonUserResponse {
   int64 token_expire_at = 3;
   bool is_vip = 4;
   int64 vip_expire_at = 5;
-  bool is_disabled = 6;
 }
 
 message ListUserResponse {
@@ -56,4 +55,5 @@ message UserInfoResponse {
   bool is_vip = 5;
   int64 vip_expire_at = 6;
   int64 create_time = 7;
+  bool is_disabled = 8;
 }
