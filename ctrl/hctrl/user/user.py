@@ -48,6 +48,7 @@ class UserCtrl(BaseCtrl):
             return False
         membership_manager = MembershipManager()
         membership = membership_manager.get_or_create_membership_by_user(user)
+        resp.is_disabled = membership.is_disabled
         if membership.is_disabled:
             return False
         record = recharge_record_manager.get_user_latest_paid_recharge_record(user)
@@ -100,7 +101,6 @@ class UserCtrl(BaseCtrl):
     def extend_vip_expire_time(self):
         """延长某一个用户的vip时限"""
         req = self.get_request_obj(api_pb.ExtendVipExpireTimeRequest)
-        from datetime import datetime
         manager = UserManager()
         user = manager.get_user_by_id(req.user_id)
         membership_manager = MembershipManager()
