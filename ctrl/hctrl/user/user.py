@@ -49,8 +49,6 @@ class UserCtrl(BaseCtrl):
         membership_manager = MembershipManager()
         membership = membership_manager.get_or_create_membership_by_user(user)
         resp.is_disabled = membership.is_disabled
-        if membership.is_disabled:
-            return False
         record = recharge_record_manager.get_user_latest_paid_recharge_record(user)
         if not record:
             return False
@@ -61,6 +59,8 @@ class UserCtrl(BaseCtrl):
         if IDate.now_timestamp() > record.valid_at:
             return False
         resp.is_vip = True
+        if membership.is_disabled:
+            return False
         return True
 
     def check_token(self):
