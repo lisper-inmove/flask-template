@@ -45,23 +45,46 @@ class UserCtrl(BaseCtrl):
         """检查是否是高级用户."""
         recharge_record_manager = RechargeRecordManager()
         if not user:
-            return False
+            return
         membership_manager = MembershipManager()
         membership = membership_manager.get_or_create_membership_by_user(user)
-        resp.is_disabled = membership.is_disabled
         record = recharge_record_manager.get_user_latest_paid_recharge_record(user)
+        self.__is_vip_by_record(resp, record)
+        self.__is_vip_by_membership(resp, membership)
+        self.__is_vip_by_farther(resp, record, membership)
+
+    def __is_vip_by_farther(self, resp, record, membership):
+        """比对谁的时间更长,就使用谁"""
+        if not record or not membership:
+            return
+        if membership.vip_expire_at > record.update_time_sec:
+            self.__is_vip_by_membership(resp, membership)
+        else:
+            self.__is_vip_by_record(resp, record)
+
+    def __is_vip_by_record(self, resp, record):
+        """只根据用户购买逻辑设置"""
         if not record:
-            return False
+            return
         resp.vip_expire_at = record.valid_at
-        if membership and membership.vip_expire_at != 0 and \
-           membership.update_time_sec > record.update_time_sec:
-            resp.vip_expire_at = membership.vip_expire_at
         if IDate.now_timestamp() > record.valid_at:
-            return False
-        resp.is_vip = True
+            resp.is_vip = False
+        else:
+            resp.is_vip = True
+
+    def __is_vip_by_membership(self, resp, membership):
+        """根据管理员在后台修改设置"""
+        if not membership:
+            return
+        resp.is_disabled = membership.is_disabled
         if membership.is_disabled:
-            return False
-        return True
+            resp.is_vip = False
+        else:
+            resp.is_vip = True
+        if membership.vip_expire_at == 0:
+            resp.is_vip = False
+        else:
+            resp.vip_expire_at = membership.vip_expire_at
 
     def check_token(self):
         req = self.get_request_obj(api_pb.CheckTokenRequest)
