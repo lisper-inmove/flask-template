@@ -57,7 +57,7 @@ class UserCtrl(BaseCtrl):
         """比对谁的时间更长,就使用谁"""
         if not record or not membership:
             return
-        if membership.vip_expire_at > record.update_time_sec:
+        if membership.vip_expire_at_update_time > record.update_time_sec:
             self.__is_vip_by_membership(resp, membership)
         else:
             self.__is_vip_by_record(resp, record)

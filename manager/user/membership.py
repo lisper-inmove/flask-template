@@ -1,6 +1,7 @@
 import proto.user.membership_pb2 as membership_pb
 from manager.base_manager import BaseManager
 from dao.user.membership import MembershipDA
+from submodules.utils.idate import IDate
 
 
 class MembershipManager(BaseManager):
@@ -30,6 +31,7 @@ class MembershipManager(BaseManager):
 
     def extend_vip_expire_time(self, membership, exprie_at):
         membership.vip_expire_at = exprie_at
+        membership.vip_expire_at_update_time = IDate.now_timestamp()
 
     def add_or_update_membership(self, membership):
         if not membership:
