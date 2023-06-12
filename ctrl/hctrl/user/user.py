@@ -81,9 +81,9 @@ class UserCtrl(BaseCtrl):
             resp.is_vip = False
         else:
             resp.is_vip = True
-        if membership.vip_expire_at == 0:
+        if membership.vip_expire_at < IDate.now_timestamp():
             resp.is_vip = False
-        else:
+        if membership.vip_expire_at >= IDate.now_timestamp():
             resp.vip_expire_at = membership.vip_expire_at
 
     def check_token(self):
