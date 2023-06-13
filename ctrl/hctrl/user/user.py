@@ -23,6 +23,9 @@ class UserCtrl(BaseCtrl):
         resp.token_expire_at = IDate.now_timestamp() + JWTUtil.TOKEN_VALID_TIME_PERIOD
         resp.token = JWTUtil().generate_token(
             payload={"username": user.username, "id": user.id})
+        membership_manager = MembershipManager()
+        membership = membership_manager.create_membership(user)
+        membership_manager.add_or_update_membership(membership)
         self.__is_vip(user, resp)
         return resp
 

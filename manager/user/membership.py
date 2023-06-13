@@ -18,7 +18,7 @@ class MembershipManager(BaseManager):
     def create_membership(self, user):
         obj = self.create_obj(membership_pb.Membership)
         obj.user_id = user.id
-        obj.vip_expire_at = IDate.now_timestamp()
+        obj.vip_expire_at = IDate.now_timestamp() - 1
         return obj
 
     def get_or_create_membership_by_user(self, user):

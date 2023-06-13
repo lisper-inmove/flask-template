@@ -15,6 +15,12 @@ class RechargeConfigCtrl(BaseCtrl):
     def _init(self, *args, **kargs):
         self._recharge_config_manager = None
 
+    def create(self):
+        req = self.get_request_obj(recharge_config_api_pb.CreateRechargeConfigRequest)
+        recharge_config = self.recharge_config_manager.create_recharge_config(req)
+        self.recharge_config_manager.add_or_update_recharge_config(recharge_config)
+        return self.empty_data_response()
+
     def active_list(self):
         recharge_configs = self.recharge_config_manager.get_active_recharge_configs()
         return self.__convert_recharge_config_to_QueryRechargeConfigResponses(

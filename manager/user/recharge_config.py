@@ -18,7 +18,8 @@ class RechargeConfigManager(BaseManager):
 
     def create_recharge_config(self, req):
         obj = self.create_obj(membership_pb.RechargeConfig)
-        obj.level = req.level
+        if req.level:
+            obj.level = req.level
         obj.valid_periods = req.valid_periods
         obj.price = req.price
         obj.name = req.name
