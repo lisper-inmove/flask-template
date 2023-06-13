@@ -34,7 +34,12 @@ class MembershipManager(BaseManager):
         membership.vip_expire_at = expire_at
 
     def extend_vip_expire_time(self, membership, extend_time):
-        membership.vip_expire_at += extend_time
+        if membership.vip_expire_at < IDate.now_timestamp():
+            # 如果前天就已经过期了,那么应该从当前时间开始算
+            membership.vip_expire_at = IDate.now_timestamp() + extend_time
+        else:
+            # 如果是在将来的某一天才过期,那么直接延长时间
+            membership.vip_expire_at += extend_time
 
     def add_or_update_membership(self, membership):
         if not membership:
