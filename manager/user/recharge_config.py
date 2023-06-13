@@ -2,6 +2,7 @@ import proto.user.membership_pb2 as membership_pb
 
 from manager.base_manager import BaseManager
 from dao.user.recharge_config import RechargeConfigDA
+from view.errors import PopupError
 
 
 class RechargeConfigManager(BaseManager):
@@ -26,6 +27,22 @@ class RechargeConfigManager(BaseManager):
     def list_recharge_configs(self):
         recharge_configs = self.recharge_config_da.get_recharge_configs()
         return recharge_configs
+
+    def get_active_recharge_configs(self):
+        recharge_configs = self.recharge_config_da.get_recharge_configs()
+        result = []
+        for r in recharge_configs:
+            if r.status != membership_pb.RechargeConfig.ACTIVE:
+                continue
+            result.append(r)
+        return result
+
+    def update_status(self, req):
+        recharge_config = self.get_recharge_config_by_id(req.id)
+        if not recharge_config:
+            raise PopupError("配置不存在")
+        recharge_config.status = membership_pb.RechargeConfig.Status.Value(req.status)
+        return recharge_config
 
     def get_recharge_config_by_id(self, id):
         recharge_config = self.recharge_config_da.get_recharge_config_by_id(id)

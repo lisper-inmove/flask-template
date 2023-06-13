@@ -7,6 +7,11 @@ message CreateRechargeConfigRequest {
   int32 price = 4;
 }
 
+message UpdateRechargeConfigStatusRequest {
+  string id = 1;
+  string status = 2;
+}
+
 message QueryRechargeConfigRequest {
   string id = 1;
 }
@@ -21,4 +26,6 @@ message QueryRechargeConfigResponse {
   string level = 3;
   int64 valid_periods = 4;
   int32 price = 5;
+  int64 create_time = 6;
+  string status = 7;
 }

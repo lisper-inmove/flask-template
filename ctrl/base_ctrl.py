@@ -55,7 +55,7 @@ class BaseCtrl(BaseCls):
         return None
 
     def get_header_param(self, key, default=None):
-        logger.info(f"请求头: {request.headers}")
+        # logger.info(f"请求头: {request.headers}")
         return request.headers.get(key, default)
 
     def do_operate(self):

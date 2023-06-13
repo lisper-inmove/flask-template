@@ -6,6 +6,8 @@ import api.trade_api_pb2 as trade_api_pb
 from ctrl.hctrl.trade.transaction import TransactionCtrl
 from manager.trade.transaction import TransactionManager
 from manager.user.recharge_record import RechargeRecordManager
+from manager.user.membership import MembershipManager
+from manager.user.user import UserManager
 from submodules.utils.idate import IDate
 from submodules.utils.logger import Logger
 
@@ -46,13 +48,26 @@ class TradeChecker:
     def __set_chatbot_plus_pay_success(self, transaction):
         if transaction.type != transaction_pb.Transaction.CHATBOT_PLUS:
             return
+
+        # 设置购买订单已完成
         manager = RechargeRecordManager()
         recharge_record = manager.get_recharge_record_by_id(transaction.order_id)
         if not recharge_record:
             return
         manager.make_recharge_record_success(recharge_record, transaction)
+
+        # 设置流水已完成
         manager = TransactionManager()
         manager.make_transaction_success(transaction)
+
+        # 设置会员时间
+        user_manager = UserManager()
+        user = user_manager.get_user_by_id(recharge_record.user_id)
+        extend_time = recharge_record.config.valid_periods
+        membership_manager = MembershipManager()
+        membership = membership_manager.get_or_create_membership_by_user(user)
+        membership_manager.extend_vip_expire_time(membership, extend_time)
+        membership_manager.add_or_update_membership(membership)
 
 
 if __name__ == '__main__':

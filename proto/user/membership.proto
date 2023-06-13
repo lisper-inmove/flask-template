@@ -21,6 +21,10 @@ message RechargeRecord {
 }
 
 message RechargeConfig {
+  enum Status {
+    ACTIVE = 0;
+    INACTIVE = 1;
+  }
   // 数字越大,等级越高
   enum Level {
     NORMAL = 0;
@@ -35,6 +39,7 @@ message RechargeConfig {
   int32 price = 5;
   int64 create_time_sec = 6;
   int64 update_time_sec = 7;
+  Status status = 8;
 }
 
 message Membership {

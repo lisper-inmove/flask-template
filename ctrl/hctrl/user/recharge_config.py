@@ -15,10 +15,21 @@ class RechargeConfigCtrl(BaseCtrl):
     def _init(self, *args, **kargs):
         self._recharge_config_manager = None
 
+    def active_list(self):
+        recharge_configs = self.recharge_config_manager.get_active_recharge_configs()
+        return self.__convert_recharge_config_to_QueryRechargeConfigResponses(
+            recharge_configs)
+
     def list(self):
         recharge_configs = self.recharge_config_manager.list_recharge_configs()
         return self.__convert_recharge_config_to_QueryRechargeConfigResponses(
             recharge_configs)
+
+    def update_status(self):
+        req = self.get_request_obj(recharge_config_api_pb.UpdateRechargeConfigStatusRequest)
+        recharge_config = self.recharge_config_manager.update_status(req)
+        self.recharge_config_manager.add_or_update_recharge_config(recharge_config)
+        return self.empty_data_response()
 
     def __convert_recharge_config_to_QueryRechargeConfigResponse(self, recharge_config):
         r = recharge_config_api_pb.QueryRechargeConfigResponse()
@@ -27,6 +38,8 @@ class RechargeConfigCtrl(BaseCtrl):
         r.level = membership_pb.RechargeConfig.Level.Name(recharge_config.level)
         r.price = recharge_config.price
         r.valid_periods = recharge_config.valid_periods
+        r.create_time = recharge_config.create_time_sec
+        r.status = membership_pb.RechargeConfig.Status.Name(recharge_config.status)
         return r
 
     def __convert_recharge_config_to_QueryRechargeConfigResponses(self, recharge_configs):
