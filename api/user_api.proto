@@ -22,6 +22,7 @@ message CheckTokenRequest {
 
 message ListUserRequest {
   int64 last_create_time = 1;
+  string username = 2;
 }
 
 message DisableOrEnableVipRequest {

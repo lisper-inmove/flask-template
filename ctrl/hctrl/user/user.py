@@ -88,6 +88,16 @@ class UserCtrl(BaseCtrl):
         resp.count = manager.count_user()
         return resp
 
+    def list_by_username(self):
+        req = self.get_request_obj(api_pb.ListUserRequest)
+        if req.username == "":
+            return self.list()
+        manager = UserManager()
+        users = manager.list_user_by_username(req)
+        resp = self.__convert_user_to_UserInfoResponses(users)
+        resp.count = len(users)
+        return resp
+
     def disable_or_enable_vip(self):
         """禁用某一个用户的vip时间"""
         req = self.get_request_obj(api_pb.DisableOrEnableVipRequest)

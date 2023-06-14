@@ -11,6 +11,27 @@ message PrepayRequest {
   string commodity_id = 5;
 }
 
+message ListTransactionRequest {
+  int64 last_create_time = 1;
+  string status = 2;
+}
+
+message ListTransactionResponse {
+  repeated QueryTransactionResponse transactions = 1;
+  int32 count = 2;
+}
+
+message QueryTransactionResponse {
+  string id = 1;
+  string status = 2;
+  string pay_method = 3;
+  string type = 4;
+  string third_party_id = 5;
+  int64 create_time = 6;
+  int32 pay_fee = 7;
+  int64 success_time = 8;
+}
+
 message QueryRequest {
   string transaction_id = 1;
   string pay_method = 2;

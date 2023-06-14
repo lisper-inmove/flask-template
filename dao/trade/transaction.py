@@ -24,3 +24,16 @@ class TransactionDA(MongoDBHelper):
         }
         transactions = self.find_many(matcher)
         return self.PH.batch_to_obj(transactions, transaction_pb.Transaction)
+
+    def list_transaction(self, last_create_time):
+        matcher = {"create_time_sec": {"$lt": str(last_create_time)}}
+        users = self.find_many(matcher, sortby=[("create_time_sec", -1)])
+        return self.PH.batch_to_obj(users, transaction_pb.Transaction)
+
+    def list_transaction_by_status(self, last_create_time, status):
+        matcher = {
+            "create_time_sec": {"$lt": str(last_create_time)},
+            "status": status
+        }
+        users = self.find_many(matcher, sortby=[("create_time_sec", -1)])
+        return self.PH.batch_to_obj(users, transaction_pb.Transaction)

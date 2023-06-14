@@ -43,6 +43,11 @@ class UserManager(BaseManager):
             req.last_create_time = IDate.now_timestamp()
         return self.user_da.list_user(req.last_create_time)
 
+    def list_user_by_username(self, req):
+        if req.last_create_time == 0:
+            req.last_create_time = IDate.now_timestamp()
+        return self.user_da.list_user_by_username(req.last_create_time, req.username)
+
     def count_user(self):
         return self.user_da.count({})
 

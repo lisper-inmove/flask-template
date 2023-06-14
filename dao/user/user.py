@@ -20,6 +20,15 @@ class UserDA(MongoDBHelper):
         users = self.find_many(matcher, sortby=[("create_time_sec", -1)])
         return self.PH.batch_to_obj(users, user_pb.User)
 
+    def list_user_by_username(self, last_create_time, username):
+        matcher = {
+            "username": {
+                "$regex": f".*{username}.*"
+            }
+        }
+        users = self.find_many(matcher, sortby=[("create_time_sec", -1)])
+        return self.PH.batch_to_obj(users, user_pb.User)
+
     def get_user_by_id(self, id):
         matcher = {"id": id}
         return self.find_one(matcher, user_pb.User)

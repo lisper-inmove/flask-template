@@ -21,6 +21,49 @@ class TransactionCtrl(BaseCtrl):
     def _init(self, *args, **kargs):
         self._transaction_manager = None
 
+    def list(self):
+        req = self.get_request_obj(trade_api_pb.ListTransactionRequest)
+        transactions = self.transaction_manager.list_transactions(req)
+        count = self.transaction_manager.count()
+        resp = self.__convert_transaction_to_QueryTransactionResponses(transactions)
+        resp.count = count
+        return resp
+
+    def list_by_status(self):
+        req = self.get_request_obj(trade_api_pb.ListTransactionRequest)
+        status_map = {v: k for k, v in
+                      self.transaction_manager.STATUS_MAP.items()}
+        if req.status == '':
+            return self.list()
+        req.status = status_map.get(req.status)
+        transactions = self.transaction_manager.list_transaction_by_status(req)
+        count = self.transaction_manager.count_by_status(req.status)
+        resp = self.__convert_transaction_to_QueryTransactionResponses(transactions)
+        resp.count = count
+        return resp
+
+    def __convert_transaction_to_QueryTransactionResponse(self, transaction):
+        resp = trade_api_pb.QueryTransactionResponse()
+        resp.id = transaction.id
+        resp.status = transaction_pb.Transaction.Status.Name(transaction.status)
+        resp.status = self.transaction_manager.STATUS_MAP.get(resp.status)
+        resp.pay_method = transaction_pb.Transaction.PayMethod.Name(transaction.pay_method)
+        resp.pay_method = self.transaction_manager.PAY_METHOD_MAP.get(resp.pay_method)
+        resp.type = transaction_pb.Transaction.Type.Name(transaction.type)
+        resp.type = self.transaction_manager.TYPE_MAP.get(resp.type)
+        resp.create_time = transaction.create_time_sec
+        resp.success_time = transaction.success_time
+        resp.pay_fee = transaction.pay_fee
+        resp.third_party_id = transaction.third_party_id
+        return resp
+
+    def __convert_transaction_to_QueryTransactionResponses(self, transactions):
+        resp = trade_api_pb.ListTransactionResponse()
+        for transaction in transactions:
+            resp.transactions.add().CopyFrom(
+                self.__convert_transaction_to_QueryTransactionResponse(transaction))
+        return resp
+
     def prepay(self):
         # TODO: 从token中取出用户ID,存入transaction中
         # TODO: 在业务逻辑中将token去除，在网关中处理token
@@ -64,10 +107,11 @@ class TransactionCtrl(BaseCtrl):
         # 暂不用回调
         pass
 
-    def query(self, req=None):
+    def query(self, req=None, transaction=None):
         if req is None:
             req = self.get_request_obj(trade_api_pb.QueryRequest)
-        transaction = self.transaction_manager.get_transaction(req)
+        if transaction is None:
+            transaction = self.transaction_manager.get_transaction(req)
         result = self.__query(transaction)
         resp = trade_api_pb.QueryResponse()
         resp.transaction_id = transaction.id
@@ -84,10 +128,10 @@ class TransactionCtrl(BaseCtrl):
 
     def __query(self, transaction):
         obj = PaymentProxy()
+        result = None
         if transaction.pay_method == transaction_pb.Transaction.ALIPAY_F2F:
             result = obj.query_alipay_trade(transaction.id)
             if not result.success:
                 return result
             transaction.third_party_id = result.third_party_id
-            self.transaction_manager.add_or_update_transaction(transaction)
         return result

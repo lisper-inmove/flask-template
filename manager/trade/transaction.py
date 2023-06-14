@@ -6,6 +6,21 @@ from submodules.utils.idate import IDate
 
 class TransactionManager(BaseManager):
 
+    PAY_METHOD_MAP = {
+        "ALIPAY_F2F": "支付宝当面付"
+    }
+
+    TYPE_MAP = {
+        "CHATBOT_PLUS": "会员"
+    }
+
+    STATUS_MAP = {
+        "CREATED": "创建",
+        "SUCCEED": "成功",
+        "REFUNDED": "已退款",
+        "CANCELLED": "已取消"
+    }
+
     @property
     def transaction_da(self):
         if not self._transaction_da:
@@ -33,6 +48,25 @@ class TransactionManager(BaseManager):
         transactions = self.transaction_da.get_transactions_by_create_time_periods(
             create_time_periods)
         return transactions
+
+    def list_transactions(self, req):
+        if req.last_create_time == 0:
+            req.last_create_time = IDate.now_timestamp()
+        transactions = self.transaction_da.list_transaction(req.last_create_time)
+        return transactions
+
+    def list_transaction_by_status(self, req):
+        if req.last_create_time == 0:
+            req.last_create_time = IDate.now_timestamp()
+        transactions = self.transaction_da.list_transaction_by_status(
+            req.last_create_time, req.status)
+        return transactions
+
+    def count(self):
+        return self.transaction_da.count({})
+
+    def count_by_status(self, status):
+        return self.transaction_da.count({"status": status})
 
     def make_transaction_success(self, transaction):
         transaction.status = transaction_pb.Transaction.SUCCEED

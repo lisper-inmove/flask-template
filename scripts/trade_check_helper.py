@@ -39,7 +39,7 @@ class TradeChecker:
         ctrl = TransactionCtrl()
         req = trade_api_pb.QueryRequest()
         req.transaction_id = transaction.id
-        result = ctrl.query(req)
+        result = ctrl.query(req, transaction)
         logger.info(f"订单支付状态: {result.success} {result.msg} {result.sub_msg}")
         if not result.success:
             return
@@ -48,7 +48,6 @@ class TradeChecker:
     def __set_chatbot_plus_pay_success(self, transaction):
         if transaction.type != transaction_pb.Transaction.CHATBOT_PLUS:
             return
-
         # 设置购买订单已完成
         manager = RechargeRecordManager()
         recharge_record = manager.get_recharge_record_by_id(transaction.order_id)
