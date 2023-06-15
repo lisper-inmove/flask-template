@@ -30,6 +30,7 @@ message QueryTransactionResponse {
   int64 create_time = 6;
   int32 pay_fee = 7;
   int64 success_time = 8;
+  string username = 9;
 }
 
 message QueryRequest {

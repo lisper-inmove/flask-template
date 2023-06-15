@@ -5,6 +5,7 @@ from ctrl.base_ctrl import BaseCtrl
 from manager.trade.transaction import TransactionManager
 from manager.user.recharge_record import RechargeRecordManager
 from manager.user.recharge_config import RechargeConfigManager
+from manager.user.user import UserManager
 from submodules.payment.proxy import PaymentProxy
 from submodules.utils.jwt_util import JWTUtil
 from view.errors import PopupError
@@ -55,6 +56,14 @@ class TransactionCtrl(BaseCtrl):
         resp.success_time = transaction.success_time
         resp.pay_fee = transaction.pay_fee
         resp.third_party_id = transaction.third_party_id
+
+        user_manager = UserManager()
+        user = user_manager.get_user_by_id(transaction.payer_id)
+        if not user:
+            resp.username = "未知(用户不存在)"
+        else:
+            resp.username = user.username
+
         return resp
 
     def __convert_transaction_to_QueryTransactionResponses(self, transactions):
